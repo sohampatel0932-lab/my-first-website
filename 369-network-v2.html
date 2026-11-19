@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>369 Network — Digital systems, built with intent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Sans:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --cream: #F4F0E8;
+            --sand: #D9D0C3;
+            --esp: #332720;
+            --bz: #A67C52;
+            --d: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
+            --b: 'DM Sans', system-ui, sans-serif
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--esp);
+            font: 400 1.05rem/1.6 var(--b);
+            overflow-x: hidden
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            html {
+                scroll-behavior: auto
+            }
+
+            * {
+                animation: none !important
+            }
+        }
+
+        .cr {
+            --bg: var(--cream);
+            --tx: var(--esp);
+            --ac: var(--bz)
+        }
+
+        .sd {
+            --bg: var(--sand);
+            --tx: var(--esp);
+            --ac: #8a5f36
+        }
+
+        .es {
+            --bg: var(--esp);
+            --tx: var(--cream);
+            --ac: #C99A68
+        }
+
+        section,
+        footer {
+            background: var(--bg);
+            color: var(--tx);
+            position: relative;
+            z-index: 1;
+            padding: clamp(5rem, 12vw, 9rem) clamp(1.2rem, 5vw, 4rem)
+        }
+
+        a {
+            color: inherit
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: var(--d);
+            line-height: 1.02;
+            letter-spacing: -.025em;
+            font-weight: 800
+        }
+
+        h2 {
+            font-size: clamp(2.4rem, 7vw, 6rem)
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--bz);
+            outline-offset: 3px
+        }
+
+        #gl {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0
+        }
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+            pointer-events: none;
+            opacity: .14;
+            mix-blend-mode: multiply;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")
+        }
+
+        .k {
+            font: 600 .78rem var(--b);
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            opacity: .75;
+            margin-bottom: 1.2rem
+        }
+
+        .wd {
+            display: inline-block;
+            overflow: hidden;
+            padding: .1em 0;
+            margin: -.1em 0;
+            vertical-align: top
+        }
+
+        .ch {
+            display: inline-block;
+            color: color-mix(in srgb, var(--ac) calc(var(--k, 0)*100%), var(--tx))
+        }
+
+        #ld {
+            position: fixed;
+            inset: 0;
+            z-index: 99;
+            background: var(--esp);
+            color: var(--cream);
+            display: grid;
+            place-items: center;
+            text-align: center
+        }
+
+        #ld .n {
+            font: 800 clamp(6rem, 24vw, 14rem)/1 var(--d);
+            color: #C99A68
+        }
+
+        #ld .lt {
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            font-size: .8rem
+        }
+
+        #pg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--bz);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 60
+        }
+
+        #rl {
+            position: fixed;
+            left: clamp(1.2rem, 3vw, 2.5rem);
+            bottom: 1.2rem;
+            z-index: 55;
+            font: 600 .75rem var(--b);
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            background: var(--cream);
+            color: var(--esp);
+            padding: .35rem .8rem;
+            border-radius: 99px
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: calc(1rem + env(safe-area-inset-top, 0px)) clamp(1.2rem, 4vw, 3rem) 1rem
+        }
+
+        .logo {
+            font: 800 1.3rem var(--d);
+            text-decoration: none;
+            background: var(--esp);
+            color: var(--cream);
+            padding: .25rem .8rem;
+            border-radius: 99px
+        }
+
+        .logo span {
+            color: #C99A68
+        }
+
+        .links {
+            display: flex;
+            gap: .2rem;
+            align-items: center;
+            background: var(--esp);
+            color: var(--cream);
+            padding: .3rem;
+            border-radius: 99px
+        }
+
+        .links a {
+            text-decoration: none;
+            padding: .5rem 1rem;
+            border-radius: 99px;
+            font-weight: 500;
+            font-size: .95rem;
+            transition: background .3s;
+            min-width: 5.2rem;
+            text-align: center
+        }
+
+        .links a:hover {
+            background: #4a3a30
+        }
+
+        .links a.cta {
+            background: var(--cream);
+            color: var(--esp)
+        }
+
+        #mb {
+            display: none;
+            background: var(--esp);
+            color: var(--cream);
+            border: 0;
+            border-radius: 99px;
+            padding: .7rem 1.2rem;
+            font: 600 .95rem var(--b);
+            min-height: 44px;
+            cursor: pointer
+        }
+
+        @media(max-width:860px) {
+            #mb {
+                display: block;
+                position: relative;
+                z-index: 2
+            }
+
+            .links {
+                position: fixed;
+                inset: 0;
+                flex-direction: column;
+                justify-content: center;
+                gap: 1rem;
+                border-radius: 0;
+                transform: translateY(-100%);
+                transition: transform .6s cubic-bezier(.7, 0, .2, 1)
+            }
+
+            nav.open .links {
+                transform: none
+            }
+
+            .links a {
+                font: 800 2.4rem var(--d)
+            }
+        }
+
+        #hero {
+            height: 240vh;
+            padding: 0;
+            background: transparent
+        }
+
+        .hs {
+            position: sticky;
+            top: 0;
+            height: 100dvh;
+            overflow: hidden
+        }
+
+        .hi {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 clamp(1.2rem, 5vw, 4rem) 5.5rem;
+            position: relative
+        }
+
+        .hi::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(244, 240, 232, .92), rgba(244, 240, 232, 0) 75%);
+            z-index: -1
+        }
+
+        #hero h1 {
+            font-size: clamp(2.8rem, 9vw, 8.5rem);
+            max-width: 11ch
+        }
+
+        .s {
+            max-width: 44ch;
+            margin: 1.4rem 0 2rem;
+            font-size: 1.2rem
+        }
+
+        .btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .8rem
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            border: 0;
+            cursor: pointer;
+            font: 600 1rem var(--b);
+            padding: 1rem 1.7rem;
+            border-radius: 99px;
+            background: var(--esp);
+            color: var(--cream);
+            min-height: 44px
+        }
+
+        .btn.o {
+            background: transparent;
+            color: var(--tx);
+            box-shadow: inset 0 0 0 2px var(--esp)
+        }
+
+        .cue {
+            position: absolute;
+            right: clamp(1.2rem, 5vw, 4rem);
+            bottom: 5.5rem;
+            font-size: .75rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            writing-mode: vertical-rl
+        }
+
+        .mq {
+            position: relative;
+            z-index: 1;
+            background: var(--bz);
+            color: var(--esp);
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 1rem 0;
+            font: 800 clamp(1.6rem, 4vw, 3rem) var(--d)
+        }
+
+        .mt {
+            display: inline-block;
+            will-change: transform
+        }
+
+        .mt span {
+            padding-right: 2rem
+        }
+
+        #about h2 {
+            max-width: 16ch;
+            margin-bottom: 3.5rem
+        }
+
+        .tri {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            border-top: 2px solid var(--esp);
+            padding-top: 2rem
+        }
+
+        .tri h3 {
+            font-size: 1.6rem;
+            margin: .3rem 0 .6rem
+        }
+
+        .tri b {
+            color: var(--ac);
+            font: 800 .9rem var(--d)
+        }
+
+        .why {
+            margin-top: 3.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: .7rem
+        }
+
+        .why span {
+            border: 2px solid var(--esp);
+            border-radius: 99px;
+            padding: .5rem 1.1rem;
+            font-weight: 500
+        }
+
+        #services {
+            height: 100dvh;
+            padding: 0;
+            background: transparent
+        }
+
+        .svs {
+            position: absolute;
+            inset: 0
+        }
+
+        .sv {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 clamp(1.2rem, 5vw, 4rem);
+            opacity: 0;
+            pointer-events: none
+        }
+
+        .sv.on {
+            pointer-events: auto
+        }
+
+        .sv.r {
+            align-items: flex-end;
+            text-align: right
+        }
+
+        .si {
+            max-width: min(520px, 46vw)
+        }
+
+        .sv .num {
+            font: 800 1rem var(--d);
+            color: var(--ac);
+            letter-spacing: .1em
+        }
+
+        .sv h3 {
+            font-size: clamp(2.4rem, 6vw, 5.5rem);
+            margin: .4rem 0 1rem;
+            color: var(--tx)
+        }
+
+        .tags {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            margin-top: 1.4rem
+        }
+
+        .sv.r .tags {
+            justify-content: flex-end
+        }
+
+        .tags li {
+            border: 2px solid var(--ac);
+            color: var(--ac);
+            border-radius: 99px;
+            padding: .2rem .9rem;
+            font-size: .9rem
+        }
+
+        #dots {
+            position: absolute;
+            left: 50%;
+            bottom: 1.4rem;
+            transform: translateX(-50%);
+            display: flex;
+            gap: .6rem;
+            z-index: 5
+        }
+
+        #dots button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--cream);
+            background: transparent;
+            color: var(--cream);
+            font: 600 .8rem var(--b);
+            cursor: pointer;
+            transition: all .3s
+        }
+
+        #dots button[aria-current=true] {
+            background: var(--cream);
+            color: var(--esp)
+        }
+
+        @media(max-width:800px) {
+
+            .sv,
+            .sv.r {
+                justify-content: flex-end;
+                align-items: flex-start;
+                text-align: left;
+                padding-bottom: 6.5rem
+            }
+
+            .si {
+                max-width: 100%
+            }
+
+            .sv.r .tags {
+                justify-content: flex-start
+            }
+        }
+
+        html.flat #hero,
+        html.flat #services {
+            background: var(--bg)
+        }
+
+        html.flat #hero {
+            height: auto;
+            min-height: 100dvh
+        }
+
+        html.flat .hs {
+            position: static;
+            height: auto;
+            min-height: 100dvh
+        }
+
+        html.flat #services {
+            height: auto;
+            padding: 5rem clamp(1.2rem, 5vw, 4rem)
+        }
+
+        html.flat .svs {
+            position: static
+        }
+
+        html.flat .sv {
+            position: static;
+            opacity: 1;
+            padding: 2rem 0;
+            align-items: flex-start;
+            text-align: left
+        }
+
+        html.flat #dots {
+            display: none
+        }
+
+        html.flat .si {
+            max-width: 100%
+        }
+
+        #work h2 {
+            margin-bottom: 2.5rem
+        }
+
+        .row {
+            border-bottom: 2px solid var(--esp)
+        }
+
+        .pj {
+            all: unset;
+            box-sizing: border-box;
+            cursor: pointer;
+            width: 100%;
+            padding: 1.2rem 0;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            font: 800 clamp(1.6rem, 4vw, 3.2rem) var(--d);
+            transition: padding .4s, color .3s
+        }
+
+        .pj small {
+            font: 500 .85rem var(--b);
+            align-self: center
+        }
+
+        .pj:hover,
+        .row.open .pj {
+            padding-left: 1.2rem;
+            color: var(--ac)
+        }
+
+        .pj:focus-visible {
+            outline: 3px solid var(--bz)
+        }
+
+        .pd {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows .5s
+        }
+
+        .pd>div {
+            overflow: hidden
+        }
+
+        .pd p {
+            max-width: 54ch;
+            padding-bottom: 1.4rem
+        }
+
+        .row.open .pd {
+            grid-template-rows: 1fr
+        }
+
+        .lb {
+            display: inline-block;
+            background: var(--esp);
+            color: var(--cream);
+            font: 600 .72rem var(--b);
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            padding: .25rem .7rem;
+            border-radius: 99px;
+            margin-bottom: .7rem
+        }
+
+        #fc {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 230px;
+            height: 290px;
+            border-radius: 14px;
+            pointer-events: none;
+            z-index: 95;
+            display: none;
+            box-shadow: 0 20px 50px rgba(51, 39, 32, .35)
+        }
+
+        .pr {
+            display: grid;
+            grid-template-columns: 5rem 1fr;
+            gap: 0 1rem;
+            padding: 1.6rem 1rem;
+            border-top: 2px solid var(--esp);
+            background: linear-gradient(var(--bz), var(--bz)) left/0% 100% no-repeat;
+            transition: background-size .6s cubic-bezier(.7, 0, .2, 1), color .3s
+        }
+
+        .pr b {
+            font: 800 1rem var(--d);
+            grid-row: span 2;
+            color: var(--ac);
+            transition: color .3s
+        }
+
+        .pr h3 {
+            font-size: clamp(1.8rem, 4vw, 3rem)
+        }
+
+        .pr p {
+            max-width: 50ch
+        }
+
+        .pr:hover,
+        .pr.in {
+            background-size: 100% 100%;
+            color: var(--cream)
+        }
+
+        .pr:hover b,
+        .pr.in b {
+            color: var(--cream)
+        }
+
+        #contact {
+            background: var(--cream)
+        }
+
+        .cg {
+            display: grid;
+            gap: 3rem
+        }
+
+        @media(min-width:900px) {
+            .cg {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        form {
+            display: grid;
+            gap: 1.1rem
+        }
+
+        label {
+            display: grid;
+            gap: .35rem;
+            font-weight: 500
+        }
+
+        input,
+        select,
+        textarea {
+            font: inherit;
+            padding: .9rem 1rem;
+            border: 2px solid var(--esp);
+            border-radius: 12px;
+            background: var(--sand);
+            color: var(--esp);
+            width: 100%
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical
+        }
+
+        .er {
+            color: #8f1d0d;
+            font-size: .85rem;
+            min-height: 1.1em
+        }
+
+        [aria-invalid=true] {
+            border-color: #8f1d0d
+        }
+
+        #fs {
+            font-weight: 500
+        }
+
+        footer h2 {
+            font-size: clamp(3rem, 12vw, 11rem);
+            margin-bottom: 3rem
+        }
+
+        .fg {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 2rem;
+            border-top: 1px solid rgba(244, 240, 232, .35);
+            padding-top: 2rem
+        }
+
+        .fg h4 {
+            font: 600 .78rem var(--b);
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            opacity: .7;
+            margin-bottom: .8rem
+        }
+
+        .fg a,
+        .fg p {
+            display: block;
+            text-decoration: none;
+            margin-bottom: .4rem
+        }
+
+        .fg a:hover {
+            color: var(--ac)
+        }
+
+        .cp {
+            margin-top: 3rem;
+            font-size: .85rem;
+            opacity: .75
+        }
+
+        #cur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 14px;
+            height: 14px;
+            margin: -7px;
+            border-radius: 50%;
+            background: var(--bz);
+            box-shadow: 0 0 0 2px var(--cream);
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0;
+            display: grid;
+            place-items: center;
+            color: var(--cream);
+            font: 600 .72rem var(--b);
+            transition: width .3s, height .3s, margin .3s
+        }
+
+        #cur.big {
+            width: 76px;
+            height: 76px;
+            margin: -38px
+        }
+
+        @media(pointer:coarse) {
+            #cur {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="ld" aria-hidden="true">
+        <div>
+            <div class="n">3</div>
+            <div class="lt">369 Network</div>
+        </div>
+    </div>
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <div id="pg"></div>
+    <div id="cur"></div>
+    <div id="fc" aria-hidden="true"></div>
+    <div id="rl">01 Home</div>
+    <nav id="nav"><a class="logo" href="#hero" aria-label="369 Network home">369<span>·</span>Network</a><button id="mb"
+            aria-expanded="false" aria-controls="lk">Menu</button>
+        <div class="links" id="lk"><a href="#about">About</a><a href="#services">Services</a><a href="#work">Work</a><a
+                href="#process">Approach</a><a class="cta mag" href="#contact">Start a project</a></div>
+    </nav>
+    <main>
+        <section id="hero" class="cr" data-n="01 Home">
+            <div class="hs">
+                <div class="hi" id="hi">
+                    <p class="k">IT &amp; digital technology company</p>
+                    <h1 class="fx" data-split>We build the systems behind what’s next.</h1>
+                    <p class="s">369 Network designs websites, AI agents, SaaS platforms and films for businesses that
+                        want technology to feel considered, not generic.</p>
+                    <div class="btns"><a class="btn mag" href="#contact">Start a project</a><a class="btn o mag"
+                            href="#services">Explore services</a></div><span class="cue">Scroll to fly in</span>
+                </div>
+            </div>
+        </section>
+        <div class="mq" aria-hidden="true">
+            <div class="mt" id="mt"></div>
+        </div>
+        <section id="about" class="sd" data-n="02 About">
+            <p class="k">About 369 Network</p>
+            <h2 class="fx" data-split>Technology should feel as good as it works.</h2>
+            <div class="tri">
+                <div><b>01 · Vision</b>
+                    <h3>Digital products with character</h3>
+                    <p>A world where business software, websites and AI feel designed by people who care about the
+                        experience.</p>
+                </div>
+                <div><b>02 · Mission</b>
+                    <h3>Ship things that last</h3>
+                    <p>Turn ideas into reliable digital products, from the first sketch to a launch you can maintain.
+                    </p>
+                </div>
+                <div><b>03 · Approach</b>
+                    <h3>Engineering with a director’s eye</h3>
+                    <p>Design, code, automation and motion sit in one team, so nothing gets lost between handoffs.</p>
+                </div>
+            </div>
+            <div class="why"><span>One team across web, AI, SaaS and video</span><span>Honest scoping</span><span>Built
+                    to be maintained</span><span>Performance-minded</span></div>
+        </section>
+        <section id="services" class="es" data-n="03 Services" aria-label="Services">
+            <div class="svs">
+                <div class="sv l">
+                    <div class="si"><span class="num">01 / 04</span>
+                        <h3>Website Development</h3>
+                        <p>Modern, fast, interactive websites. Frontend engineering and custom web solutions built
+                            around your brand.</p>
+                        <ul class="tags">
+                            <li>Interactive sites</li>
+                            <li>Frontend engineering</li>
+                            <li>Custom builds</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sv r">
+                    <div class="si"><span class="num">02 / 04</span>
+                        <h3>AI Dedicated Agents</h3>
+                        <p>Task-focused AI agents and workflow automation that take repetitive work off your team and
+                            fit how your business runs.</p>
+                        <ul class="tags">
+                            <li>Workflow automation</li>
+                            <li>Task agents</li>
+                            <li>AI for business</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sv l">
+                    <div class="si"><span class="num">03 / 04</span>
+                        <h3>SaaS Development</h3>
+                        <p>Scalable software platforms and web applications, built in layers so your product can grow
+                            without rewrites.</p>
+                        <ul class="tags">
+                            <li>Web platforms</li>
+                            <li>Scalable architecture</li>
+                            <li>Product engineering</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sv r">
+                    <div class="si"><span class="num">04 / 04</span>
+                        <h3>Video Creation &amp; Editing</h3>
+                        <p>Video production, motion graphics and cinematic editing that tell your story clearly and look
+                            the part.</p>
+                        <ul class="tags">
+                            <li>Motion graphics</li>
+                            <li>Editing</li>
+                            <li>Digital content</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="dots"></div>
+        </section>
+        <section id="work" class="cr" data-n="04 Work">
+            <p class="k">Selected work</p>
+            <h2 class="fx" data-split>Concepts we’d love to build.</h2>
+            <p style="max-width:56ch;margin-bottom:2.5rem">These are conceptual demonstrations, not client projects.
+                Hover to preview, click to open.</p>
+            <div id="rows"></div>
+        </section>
+        <section id="process" class="sd" data-n="05 Approach">
+            <p class="k">Our approach</p>
+            <h2 class="fx" data-split>Six steps, no black boxes.</h2>
+            <div id="prs" style="margin-top:3rem"></div>
+        </section>
+        <section id="contact" class="cr" data-n="06 Contact">
+            <div class="cg">
+                <div>
+                    <p class="k">Contact</p>
+                    <h2 class="fx" data-split>Tell us what you’re building.</h2>
+                    <p style="margin-top:1.5rem;max-width:40ch">Share a few details and we’ll reply with next steps.
+                        This site has no server, so sending opens your email app with the message prepared.</p>
+                </div>
+                <form id="f" novalidate><label>Name<input name="n" autocomplete="name" required><span
+                            class="er"></span></label><label>Email<input name="e" type="email" autocomplete="email"
+                            required><span class="er"></span></label>
+                    <label>Service<select name="s">
+                            <option>Website Development</option>
+                            <option>AI Dedicated Agents</option>
+                            <option>SaaS Development</option>
+                            <option>Video Creation and Editing</option>
+                            <option>Not sure yet</option>
+                        </select></label>
+                    <label>Project details<textarea name="m" required></textarea><span class="er"></span></label><button
+                        class="btn mag" type="submit">Prepare my message</button>
+                    <p id="fs" role="status"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer class="es" data-n="07 End">
+        <h2 class="fx" data-split>Let’s build it.</h2>
+        <div class="fg">
+            <div>
+                <h4>369 Network</h4>
+                <p>Digital solutions, intelligent systems and creative media.</p>
+            </div>
+            <div>
+                <h4>Navigate</h4><a href="#about">About</a><a href="#work">Work</a><a href="#process">Approach</a><a
+                    href="#contact">Contact</a>
+            </div>
+            <div>
+                <h4>Services</h4><a href="#services">Website Development</a><a href="#services">AI Dedicated
+                    Agents</a><a href="#services">SaaS Development</a><a href="#services">Video Creation &amp;
+                    Editing</a>
+            </div>
+            <div>
+                <h4>Contact</h4><a href="mailto:hello@369network.com">hello@369network.com</a>
+                <p>Phone and address: to be added</p>
+            </div>
+        </div>
+        <p class="cp">© 2026 369 Network. All rights reserved.</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+        (function () {
+            const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)], H = document.documentElement;
+            const rm = matchMedia('(prefers-reduced-motion:reduce)').matches, fine = matchMedia('(pointer:fine)').matches;
+            const G = typeof gsap !== 'undefined', T3 = typeof THREE !== 'undefined'; if (G) gsap.registerPlugin(ScrollTrigger);
+            const CH = 'ABCDEFGHJKMNPQRSTUVWXYZ369';
+            const sc = el => {if (rm) return; const t = el.dataset.t || (el.dataset.t = el.textContent); let f = 0; clearInterval(el._i); el._i = setInterval(() => {el.textContent = [...t].map((c, i) => i < f / 2 || c === ' ' ? c : CH[Math.random() * 26 | 0]).join(''); if (++f > t.length * 2 + 2) {el.textContent = t; clearInterval(el._i)} }, 26)};
+            $$('[data-split]').forEach(el => {const t = el.textContent.trim(); el.setAttribute('aria-label', t); el.innerHTML = t.split(' ').map(w => `<span class="wd" aria-hidden="true">${[...w].map(c => `<i class="ch">${c}</i>`).join('')}</span>`).join(' ')});
+            /* nav */
+            const nav = $('#nav'), mb = $('#mb'), tog = o => {nav.classList.toggle('open', o); mb.setAttribute('aria-expanded', o); mb.textContent = o ? 'Close' : 'Menu'};
+            mb.onclick = () => tog(!nav.classList.contains('open')); $$('.links a').forEach(a => {a.addEventListener('click', () => tog(false)); a.addEventListener('pointerenter', () => sc(a))}); addEventListener('keydown', e => {if (e.key === 'Escape') tog(false)});
+            /* 3D journey */
+            const cv = $('#gl'); let R = null; if (T3) {try {R = new THREE.WebGLRenderer({canvas: cv, antialias: true})} catch (e) { } }
+            const flat = rm || !R || !G; if (flat) {H.classList.add('flat'); cv.style.display = 'none'}
+            let hv = true, sv = false, heroZ = 16, svcP = 0, mx = 0, my = 0;
+            addEventListener('pointermove', e => {mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5});
+            if (!flat) {
+                const BG = 0xF4F0E8, DK = 0x332720, BR = 0xA67C52, SA = 0xD9D0C3, NR = innerWidth < 800;
+                R.setPixelRatio(Math.min(devicePixelRatio, 2)); R.setClearColor(BG);
+                const S = new THREE.Scene(), C = new THREE.PerspectiveCamera(50, 1, .1, 200); S.fog = new THREE.Fog(BG, 6, 38);
+                S.add(new THREE.AmbientLight(0xD9D0C3, .75)); const dl = new THREE.DirectionalLight(0xfff3e0, 1.1); dl.position.set(3, 5, 6); S.add(dl);
+                const M = (c, r = .5, m = .25) => new THREE.MeshStandardMaterial({color: c, roughness: r, metalness: m});
+                const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(1.1, .3, 180, 18, 2, 3), M(BR, .35, .5)); knot.position.set(NR ? 1.8 : 3, NR ? 1.8 : .3, -2); S.add(knot);
+                const gates = []; for (let i = 0; i < 9; i++) {const g = new THREE.Mesh(new THREE.TorusGeometry(3.4, .05, 8, 96), M(i % 3 ? DK : BR)); g.position.z = -6 - i * 3.6; S.add(g); gates.push(g)}
+                const N = 1100, pp = new Float32Array(N * 3); for (let i = 0; i < N; i++)pp.set([(Math.random() - .5) * 28, (Math.random() - .5) * 16, 12 - Math.random() * 145], i * 3);
+                const gd = new THREE.BufferGeometry(); gd.setAttribute('position', new THREE.BufferAttribute(pp, 3)); S.add(new THREE.Points(gd, new THREE.PointsMaterial({color: BR, size: .07})));
+                const mk = [() => {const g = new THREE.Group();[BR, SA, BG].forEach((c, i) => {const m = new THREE.Mesh(new THREE.BoxGeometry(2.8, 1.8, .08), M(c)); m.position.set(i * .35, i * .25, -i * .7); g.add(m)}); return g},
+                () => {
+                    const g = new THREE.Group(), P = [], L = []; for (let i = 0; i < 12; i++) {const a = Math.acos(2 * Math.random() - 1), b = Math.random() * 6.283; P.push(new THREE.Vector3(1.5 * Math.sin(a) * Math.cos(b), 1.5 * Math.sin(a) * Math.sin(b), 1.5 * Math.cos(a)))}
+                    P.forEach((a, i) => P.forEach((b, j) => {if (j > i && a.distanceTo(b) < 1.9) L.push(a, b)})); g.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(L), new THREE.LineBasicMaterial({color: BG})));
+                    P.forEach((p, i) => {const s = new THREE.Mesh(new THREE.SphereGeometry(i ? .14 : .26, 16, 12), M(i % 2 ? BR : SA)); s.position.copy(p); g.add(s)}); g.userData.u = t => g.children.forEach((c, i) => {if (c.isMesh) c.scale.setScalar(1 + .25 * Math.sin(t * 2 + i))}); return g
+                },
+                () => {const g = new THREE.Group(); for (let i = 0; i < 4; i++)g.add(new THREE.Mesh(new THREE.BoxGeometry(2.6, .28, 1.8), M(i % 2 ? SA : BR))); g.rotation.x = .4; g.userData.u = t => g.children.forEach((m, i) => m.position.y = (i - 1.5) * (.55 + .35 * Math.sin(t * 1.2))); return g},
+                () => {const g = new THREE.Group(), f = new THREE.Group(); g.add(new THREE.Mesh(new THREE.TorusGeometry(1.2, .16, 16, 64), M(BR, .4, .4))); for (let i = 0; i < 8; i++) {const m = new THREE.Mesh(new THREE.BoxGeometry(.55, .75, .05), M(i % 2 ? BG : SA)), a = i / 8 * 6.283; m.position.set(Math.cos(a) * 1.9, Math.sin(a) * 1.9, 0); m.rotation.z = a; f.add(m)} g.add(f); g.userData.u = t => {f.rotation.z = -t * .5}; return g}];
+                const svc = mk.map((f, i) => {const o = f(); o.position.set(NR ? 0 : (i % 2 ? -2.8 : 2.8), NR ? 1.7 : 0, -60 - i * 21); S.add(o); return o});
+                const rs = () => {R.setSize(innerWidth, innerHeight, false); C.aspect = innerWidth / innerHeight; C.updateProjectionMatrix()}; rs(); addEventListener('resize', rs);
+                const zone = z => {const c = z ? DK : BG; R.setClearColor(c); S.fog.color.setHex(c)}; C.position.z = 16;
+                new IntersectionObserver(es => {es.forEach(e => {if (e.target.id === 'hero') hv = e.isIntersecting; else sv = e.isIntersecting}); zone(sv); C.position.z = sv ? -52 - svcP * 63 : heroZ}).observe($('#hero'));
+                const io2 = new IntersectionObserver(es => {es.forEach(e => {sv = e.isIntersecting}); zone(sv); C.position.z = sv ? -52 - svcP * 63 : heroZ}); io2.observe($('#services'));
+                const clk = new THREE.Clock();
+                (function loop() {
+                    requestAnimationFrame(loop); if (document.hidden || !(hv || sv)) return; const t = clk.getElapsedTime();
+                    knot.rotation.set(t * .2, t * .3, 0); gates.forEach((g, i) => g.rotation.z = i * .35 + t * .12 * (i % 2 ? -1 : 1)); svc.forEach((o, i) => {o.rotation.y = t * .25 + i; o.userData.u && o.userData.u(t)});
+                    const tz = sv ? -52 - svcP * 63 : heroZ; C.position.z += (tz - C.position.z) * .08; C.position.x += (mx * 1.2 - C.position.x) * .05; C.position.y += (-my * .8 - C.position.y) * .05; C.lookAt(C.position.x * .2, 0, C.position.z - 10); R.render(S, C)
+                })();
+                window.__knot = knot
+            }
+            /* motion */
+            if (G) {
+                ScrollTrigger.create({start: 0, end: 'max', onUpdate: s => {$('#pg').style.transform = `scaleX(${s.progress})`}});
+                $$('section[data-n],footer').forEach(s => ScrollTrigger.create({trigger: s, start: 'top 55%', end: 'bottom 55%', onToggle: t => {if (t.isActive) $('#rl').textContent = s.dataset.n}}));
+                if (!rm) $$('.ch').forEach(c => gsap.set(c, {yPercent: 115}));
+                const rev = el => gsap.to(el.querySelectorAll('.ch'), {yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: .025});
+                $$('[data-split]:not(#hero h1)').forEach(h => ScrollTrigger.create({trigger: h, start: 'top 88%', once: true, onEnter: () => rev(h)}));
+                /* hover wave on headings */
+                if (fine && !rm) $$('.fx').forEach(el => {
+                    const cs = [...el.querySelectorAll('.ch')]; el.addEventListener('pointermove', e => cs.forEach(c => {const r = c.getBoundingClientRect(), d = Math.hypot(e.clientX - r.left - r.width / 2, e.clientY - r.top - r.height / 2), k = Math.max(0, 1 - d / 140); c.style.setProperty('--k', k.toFixed(2)); gsap.to(c, {y: -k * 16, rotation: k * -5, duration: .3, overwrite: 'auto'})}));
+                    el.addEventListener('pointerleave', () => cs.forEach(c => {c.style.setProperty('--k', 0); gsap.to(c, {y: 0, rotation: 0, duration: .7, ease: 'elastic.out(1,.5)'})}))
+                });
+                /* hero fly-in */
+                if (!flat) ScrollTrigger.create({trigger: '#hero', start: 'top top', end: 'bottom bottom', onUpdate: s => {heroZ = 9 - s.progress * 40; const h = $('#hi'); h.style.opacity = Math.max(0, 1 - s.progress * 2.6); h.style.transform = `translateY(${-s.progress * 80}px)`}});
+                /* services */
+                const sv$ = $$('.sv'), dots = $('#dots'); let cur = -1, T = null;
+                const show = i => {if (cur === i) return; const o = sv$[cur], n = sv$[i]; if (o) {o.classList.remove('on'); gsap.to(o, {opacity: 0, y: -30, duration: .35})} n.classList.add('on'); gsap.fromTo(n, {opacity: 0, y: 40}, {opacity: 1, y: 0, duration: .8, ease: 'expo.out'}); sc(n.querySelector('h3')); $$('#dots button').forEach((b, j) => b.setAttribute('aria-current', j === i)); cur = i};
+                if (!flat) {
+                    dots.innerHTML = sv$.map((_, i) => `<button data-cur="Go" aria-label="Service ${i + 1}" aria-current="false">0${i + 1}</button>`).join('');
+                    T = ScrollTrigger.create({trigger: '#services', start: 'top top', end: () => '+=' + innerHeight * 4, pin: true, scrub: true, onUpdate: s => {svcP = s.progress; show(Math.min(3, Math.round(s.progress * 3)))}}); show(0);
+                    $$('#dots button').forEach((b, i) => b.onclick = () => scrollTo({top: T.start + i / 3 * (T.end - T.start)}))
+                }
+                /* marquee */
+                const mt = $('#mt'); mt.innerHTML = '<span>Website Development ✦ AI Dedicated Agents ✦ SaaS Development ✦ Video Creation and Editing ✦</span>'.repeat(4);
+                if (!rm) {let x = 0, v = 0; ScrollTrigger.create({start: 0, end: 'max', onUpdate: s => {v = s.getVelocity()}}); gsap.ticker.add(() => {const w = mt.scrollWidth / 2; x -= 1 + Math.abs(v) / 260; v *= .92; if (x < -w) x += w; mt.style.transform = `translateX(${x}px) skewX(${gsap.utils.clamp(-12, 12, v / -250)}deg)`})}
+                /* cursor, magnetic */
+                if (fine) {
+                    const c = $('#cur'), qx = gsap.quickTo(c, 'x', {duration: .2}), qy = gsap.quickTo(c, 'y', {duration: .2});
+                    addEventListener('pointermove', e => {c.style.opacity = 1; qx(e.clientX); qy(e.clientY)});
+                    document.addEventListener('pointerover', e => {const t = e.target.closest('[data-cur],a,button,input,select,textarea'); c.classList.toggle('big', !!t && !!t.dataset.cur); c.textContent = t && t.dataset.cur || ''});
+                    if (!rm) $$('.mag').forEach(b => {b.addEventListener('pointermove', e => {const r = b.getBoundingClientRect(); gsap.to(b, {x: (e.clientX - r.left - r.width / 2) * .3, y: (e.clientY - r.top - r.height / 2) * .3, duration: .3})}); b.addEventListener('pointerleave', () => gsap.to(b, {x: 0, y: 0, duration: .6, ease: 'elastic.out(1,.4)'}))})
+                }
+            }
+            /* work */
+            const W = [['Harbor', 'SaaS concept', 'A logistics dashboard concept: live shipment status, exception alerts and a clear planning view.', 'conic-gradient(from 40deg at 30% 60%,#332720,#A67C52,#D9D0C3,#332720)'],
+            ['Atlas Agent', 'AI concept', 'A support-triage agent concept that sorts requests, drafts replies and hands tricky cases to a person.', 'radial-gradient(circle at 70% 30%,#F4F0E8 0 12%,#A67C52 13% 40%,#332720 41%)'],
+            ['Ember', 'Video concept', 'A 30-second launch film concept: kinetic type, warm light and a tight edit for social.', 'repeating-linear-gradient(115deg,#332720 0 14px,#A67C52 14px 18px,#D9D0C3 18px 40px)'],
+            ['Fieldnote', 'Web concept', 'An interactive marketing site concept for a research studio, with scroll-led storytelling.', 'linear-gradient(160deg,#D9D0C3,#A67C52 55%,#332720)']];
+            $('#rows').innerHTML = W.map((w, i) => `<div class="row${i ? '' : ' open'}"><button class="pj" data-cur="View" aria-expanded="${!i}" data-i="${i}"><span>${w[0]}</span><small>${w[1]}</small></button><div class="pd"><div><span class="lb">Concept · not a client project</span><p>${w[2]}</p></div></div></div>`).join('');
+            const fc = $('#fc');
+            $$('.pj').forEach(b => {
+                const w = W[+b.dataset.i]; b.onclick = () => {const r = b.parentNode, o = !r.classList.contains('open'); r.classList.toggle('open', o); b.setAttribute('aria-expanded', o)};
+                if (fine && G) {b.addEventListener('pointerenter', () => {fc.style.display = 'block'; fc.style.background = w[3]; gsap.fromTo(fc, {scale: .4, rotation: -10}, {scale: 1, rotation: -4, duration: .5, ease: 'expo.out'})}); b.addEventListener('pointerleave', () => gsap.to(fc, {scale: 0, duration: .25}))}
+            });
+            if (fine && G) {const fx = gsap.quickTo(fc, 'x', {duration: .4}), fy = gsap.quickTo(fc, 'y', {duration: .4}); gsap.set(fc, {scale: 0}); addEventListener('pointermove', e => {fx(e.clientX + 30); fy(e.clientY - 130)})}
+            /* process */
+            const P = [['Discover', 'We learn your goals, users and constraints before proposing anything.'], ['Strategize', 'We define scope, priorities and a plan you can hold us to.'], ['Design', 'We shape the look, motion and flows, and review them with you.'], ['Develop', 'We build in working increments you can see and test.'], ['Refine', 'We test, tune performance and polish the details.'], ['Deliver', 'We launch, hand over documentation and stay available for what comes next.']];
+            $('#prs').innerHTML = P.map((p, i) => `<div class="pr"><b>0${i + 1}</b><h3>${p[0]}</h3><p>${p[1]}</p></div>`).join('');
+            if (G) $$('.pr').forEach(r => ScrollTrigger.create({trigger: r, start: 'top 62%', end: 'bottom 62%', toggleClass: {targets: r, className: 'in'}}));
+            /* contact */
+            const f = $('#f'), fs = $('#fs');
+            f.addEventListener('submit', e => {
+                e.preventDefault(); let ok = true;
+                [['n', v => v.trim().length > 1, 'Please enter your name.'], ['e', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Please enter a valid email.'], ['m', v => v.trim().length > 9, 'Please add a few details (10+ characters).']].forEach(([k, t, msg]) => {const el = f.elements[k], er = el.parentNode.querySelector('.er'), good = t(el.value); el.setAttribute('aria-invalid', !good); er.textContent = good ? '' : msg; if (!good) ok = false});
+                if (!ok) {fs.textContent = 'Please fix the highlighted fields.'; return }
+                const b = encodeURIComponent(`Name: ${f.n.value}\nEmail: ${f.e.value}\nService: ${f.s.value}\n\n${f.m.value}`);
+                fs.textContent = 'Opening your email app. If nothing opens, email hello@369network.com directly. Nothing has been sent yet.';
+                location.href = `mailto:hello@369network.com?subject=${encodeURIComponent('Project enquiry: ' + f.s.value)}&body=${b}`
+            });
+            /* loader + intro */
+            const ld = $('#ld'), nn = $('#ld .n'); let si = 0; const iv = setInterval(() => {si++; if (si < 3) nn.textContent = [3, 6, 9][si]}, 420);
+            const intro = () => {
+                clearInterval(iv); if (!G) {ld.remove(); return }
+                gsap.to(ld, {clipPath: 'inset(0 0 100% 0)', duration: .9, ease: 'expo.inOut', onComplete: () => ld.remove()}); heroZ = 9;
+                if (!rm) {gsap.to('#hero .ch', {yPercent: 0, duration: 1.3, ease: 'expo.out', stagger: .03, delay: .5}); gsap.from('#hero .k,#hero .s,#hero .btns,.cue', {opacity: 0, y: 24, duration: 1, stagger: .12, delay: .9}); if (window.__knot) gsap.from(window.__knot.scale, {x: 0, y: 0, z: 0, duration: 1.8, ease: 'expo.out', delay: .4})}
+                ScrollTrigger.refresh()
+            };
+            setTimeout(intro, 1500);
+        })();
+    </script>
+</body>
+
+</html>
